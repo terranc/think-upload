@@ -55,6 +55,9 @@ class Upload
 		if ($this->config['ext']) {
 			$checkData['ext'] = $this->config['ext'];
 		}
+		if ($this->config['type']) {
+			$checkData['type'] = $this->config['type'];
+		}
 
 		/** 先上传到服务器 */
 		if (!$this->byThinkUpload($file)) {
