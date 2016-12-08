@@ -3,7 +3,7 @@ namespace Qsnh\think\Upload\Driver;
 
 use JohnLui\AliyunOSS\AliyunOSS;
 
-class AliyunUpload
+class AliyunUpload extends UploadDriverInterface
 {
 
 	protected $app = null;

@@ -1,20 +1,19 @@
 <?php
 namespace Qsnh\think\Upload\Driver;
 
-use Qiniu\Qiniu;
+use Qiniu\Auth;
+use Qiniu\Storage\UploadManager;
 
-class QiniuUpload
+class QiniuUpload extends UploadDriverInterface
 {
 
-	protected $app = null;
+	protected $token = '';
 
 	public function __construct($config)
 	{
-		$this->app = Qiniu::create([
-			'access_key' => $config['access_key'],
-		    'secret_key' => $config['secret_key'],
-		    'bucket'     => $config['bucket'],
-		]);
+		$auth = new Auth($config['access_key'], $config['secret_key']);
+
+		$this->token = $auth->uploadToken($config['bucket']);
 	}
 
 	public function upload(SplFileInfo $file)
@@ -23,9 +22,17 @@ class QiniuUpload
 
 		$filepath = $file->getPath() . DIRECTORY_SEPARATOR . $filename;
 
-		$result = $this->app->uploadFile($filepath, $filename);
+		$uploadMgr = new UploadManager();
 
-		return $result;
+	    list($ret, $err) = $uploadMgr->putFile($this->token, $filename, $filepath);
+
+	    if ($err !== null) {
+	    	$this->setError($err);
+
+	    	return false;
+	    }
+
+	    return $ret;
 	}
 
 }
