@@ -47,6 +47,12 @@ class Upload
 
 		$file = $request->file($filed);
 
+		if (is_null($file)) {
+			$this->setErrors('请选择上传文件.');
+
+			return false;
+		}
+
 		$checkData = [];
 		/** 大小验证 */
 		if ($this->config['size'] > 0) {
@@ -66,7 +72,6 @@ class Upload
 
 			return false;
 		}
-
 
 		/** 先上传到服务器 */
 		if (!$this->byThinkUpload($file)) {
