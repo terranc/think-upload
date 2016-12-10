@@ -26,7 +26,7 @@ class AliyunUpload extends UploadDriverInterface
 		$filepath = $file->getPath() . DIRECTORY_SEPARATOR . $filename;
 
 		try{
-        	$result = $this->app->upload($filename, $filepath);
+        	$result = $this->app->uploadFile($filename, $filepath);
 	    } catch(OssException $e) {
 	        $this->setError($e->getMessage());
 
