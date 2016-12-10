@@ -17,7 +17,7 @@ class AliyunUpload extends UploadDriverInterface
 		);
 	}
 
-	public function upload(SplFileInfo $file)
+	public function upload(\SplFileInfo $file)
 	{
 		$filename = $file->getFilename();
 

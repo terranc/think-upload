@@ -16,7 +16,7 @@ class QiniuUpload extends UploadDriverInterface
 		$this->token = $auth->uploadToken($config['bucket']);
 	}
 
-	public function upload(SplFileInfo $file)
+	public function upload(\SplFileInfo $file)
 	{
 		$filename = $file->getFilename();
 

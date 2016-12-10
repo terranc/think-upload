@@ -15,7 +15,7 @@ abstract UploadDriverInterface
 	 * @param SplFileInfo $file
 	 * @return string 文件的绝对地址
 	 */
-	public abstract function upload(SplFileInfo $file);
+	public abstract function upload(\SplFileInfo $file);
 
 	/**
    	 * 设置错误信息

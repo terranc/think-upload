@@ -107,7 +107,7 @@ class Upload
 	 * 上传分发
 	 * @return string
 	 */
-	protected function dispatch(SplFileInfo $file)
+	protected function dispatch(\SplFileInfo $file)
 	{
 		switch ($this->config['driver']) {
 			case 'qiniu':
@@ -125,7 +125,7 @@ class Upload
 	 * 默认驱动
 	 * @return mixed
 	 */
-	protected function defaultDriver(SplFileInfo $file)
+	protected function defaultDriver(\SplFileInfo $file)
 	{
 		$url = $this->config['default']['remote_url'];
 
@@ -141,7 +141,7 @@ class Upload
 	 * @param  SplFileInfo $file 
 	 * @return mixed
 	 */
-	protected function qiniuDriver(SplFileInfo $file)
+	protected function qiniuDriver(\SplFileInfo $file)
 	{
 		$qiniu = new QiniuUpload($this->config['qiniu']);
 
@@ -153,7 +153,7 @@ class Upload
 	 * @param  SplFileInfo $file 
 	 * @return mixed            
 	 */
-	protected function aliyunDriver(SplFileInfo $file)
+	protected function aliyunDriver(\SplFileInfo $file)
 	{
 		$app = new AliyunUpload($this->config['aliyun']);
 
