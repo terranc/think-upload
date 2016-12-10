@@ -1,6 +1,7 @@
 <?php
 namespace Qsnh\think\Upload;
 
+use think\File;
 use think\Request;
 use Qsnh\think\Upload\Driver\QiniuUpload;
 use Qsnh\think\Upload\Driver\AliyunUpload;
@@ -58,6 +59,14 @@ class Upload
 		if ($this->config['type']) {
 			$checkData['type'] = $this->config['type'];
 		}
+
+		/** 验证 */
+		if (!$file->validate($checkData)) {
+			$this->setErrors($file->getError());
+
+			return false;
+		}
+
 
 		/** 先上传到服务器 */
 		if (!$this->byThinkUpload($file)) {
