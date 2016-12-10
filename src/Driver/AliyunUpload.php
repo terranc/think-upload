@@ -44,7 +44,7 @@ class AliyunUpload extends UploadDriverInterface
 	        return false;
 	    }
 
-	    @unlink($file->getPathname());
+	    @unlink($filepath);
 
 		return $this->remote_url . $filename;
 	}
