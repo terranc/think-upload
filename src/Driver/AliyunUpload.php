@@ -12,9 +12,11 @@ class AliyunUpload extends UploadDriverInterface
 	{
 		$this->app = AliyunOSS::boot(
 			$config['oss_server'],
-			$config['access_key_id'],,
+			$config['access_key_id'],
 			$config['access_key_secret']
 		);
+
+		$this->app->setBucket($config['bucket']);
 	}
 
 	public function upload(\SplFileInfo $file)
@@ -23,7 +25,13 @@ class AliyunUpload extends UploadDriverInterface
 
 		$filepath = $file->getPath() . DIRECTORY_SEPARATOR . $filename;
 
-		$result = $this->app->upload($filename, $filepath);
+		try{
+        	$result = $this->app->upload($filename, $filepath);
+	    } catch(OssException $e) {
+	        $this->setError($e->getMessage());
+
+	        return false;
+	    }
 
 		return $result;
 	}

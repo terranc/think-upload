@@ -37,6 +37,8 @@ class QiniuUpload extends UploadDriverInterface
 	    	return false;
 	    }
 
+	    @unlink($file->getPathname());
+
 	    return $this->remote_url . $ret['key'];
 	}
 
