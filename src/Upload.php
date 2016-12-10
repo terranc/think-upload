@@ -133,7 +133,15 @@ class Upload
 			$url .= '/';
 		}
 
-		return $url . $file->getFilename();
+		$pathname = $file->getPathname();
+		if (substr($pathname, 0, 1) == '.') {
+			$pathname = substr($pathname, 1);
+		}
+		if (substr($pathname, 0, 1) == '/') {
+			$pathname = substr($pathname, 1);
+		}
+
+		return $url . $pathname;
 	}
 
 	/**
