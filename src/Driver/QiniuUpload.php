@@ -27,6 +27,7 @@ class QiniuUpload extends UploadDriverInterface
 	    list($ret, $err) = $uploadMgr->putFile($this->token, $filename, $filepath);
 
 	    if ($err !== null) {
+	    	
 	    	$this->setError($err);
 
 	    	return false;
