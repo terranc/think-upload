@@ -1,7 +1,7 @@
 <?php
 namespace Qsnh\think\Upload\Driver;
 
-abstract UploadDriverInterface
+abstract class UploadDriverInterface
 {
 
 	/**

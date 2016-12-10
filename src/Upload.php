@@ -141,7 +141,9 @@ class Upload
 			$pathname = substr($pathname, 1);
 		}
 
-		return $url . $pathname;
+		$full = str_replace('\\', '/', $url . $pathname);
+
+		return $full;
 	}
 
 	/**
