@@ -175,7 +175,15 @@ class Upload
 	{
 		$app = new AliyunUpload($this->config['aliyun']);
 
-		return $app->upload($file);
+		$result = $app->upload($file);
+
+		if (!$result) {
+			$this->setErrors($app->getError());
+
+			return false;
+		}
+
+		return $result;
 	}
 
 	/**
