@@ -2,6 +2,7 @@
 namespace Qsnh\think\Upload\Driver;
 
 use JohnLui\AliyunOSS\AliyunOSS;
+use Aliyun\OSS\Exceptions\OssException;
 
 class AliyunUpload extends UploadDriverInterface
 {
@@ -33,7 +34,7 @@ class AliyunUpload extends UploadDriverInterface
 	        return false;
 	    }
 
-		return $result;
+		return $this->app->getUrl($filename, new \DateTime("+1 day"));
 	}
 
 }
