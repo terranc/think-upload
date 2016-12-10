@@ -9,11 +9,15 @@ class QiniuUpload extends UploadDriverInterface
 
 	protected $token = '';
 
+	protected $remote_url = '';
+
 	public function __construct($config)
 	{
 		$auth = new Auth($config['access_key'], $config['secret_key']);
 
 		$this->token = $auth->uploadToken($config['bucket']);
+
+		$this->remote_url = isset($config['remote_url']) ? $config['remote_url'] : '';
 	}
 
 	public function upload(\SplFileInfo $file)
@@ -33,7 +37,7 @@ class QiniuUpload extends UploadDriverInterface
 	    	return false;
 	    }
 
-	    return $ret;
+	    return $this->remote_url . $ret['key'];
 	}
 
 }

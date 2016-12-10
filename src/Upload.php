@@ -155,7 +155,15 @@ class Upload
 	{
 		$qiniu = new QiniuUpload($this->config['qiniu']);
 
-		return $qiniu->upload($file);
+		$result = $qiniu->upload($file);
+
+		if (!$result) {
+			$this->setErrors($qiniu->getError());
+
+			return false;
+		}
+
+		return $result;
 	}
 
 	/**
