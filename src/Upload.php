@@ -44,7 +44,7 @@ class Upload
 	{
 		$request = Request::instance();
 
-		$file = $request->file($file);
+		$file = $request->file($filed);
 
 		$checkData = [];
 		/** 大小验证 */
