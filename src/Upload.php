@@ -199,7 +199,7 @@ class Upload
 	 * 获取错误信息
 	 * @return string 
 	 */
-	public function getError()
+	public function getErrors()
 	{
 		return $this->errors;
 	}
