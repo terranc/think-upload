@@ -30,9 +30,9 @@ class AliyunUpload extends UploadDriverInterface
 		}
 	}
 
-	public function upload($prefix = '', \SplFileInfo $file)
+	public function upload($prefix = '', $name = null, \SplFileInfo $file)
 	{
-		$filename = $file->getFilename();
+		$filename = $name ?: $file->getFilename();
 
 		$filepath = $file->getPath() . DIRECTORY_SEPARATOR . $filename;
 

@@ -47,7 +47,8 @@ use Qsnh\think\Upload\Upload;
 
 $upload = new Upload(config('upload'));
 
-$result = $upload->upload();
+// $result = $upload->upload('avatar', '123.jpg');
+$result = $upload->upload('avatar'); // first parameter is folder path; second parameter is custom filename(default: null) 
 
 if (!$result) {
     $this->error($upload->getErrors());

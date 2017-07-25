@@ -26,9 +26,9 @@ class UpyunUpload extends UploadDriverInterface
 		$this->remote_url = isset($config['remote_url']) ? $config['remote_url'] : '';
 	}
 
-	public function upload($prefix = '', \SplFileInfo $file)
+	public function upload($prefix = '', $name = null, \SplFileInfo $file)
 	{
-		$filename = $file->getFilename();
+		$filename = $name ?: $file->getFilename();
 		$filepath = $file->getPath() . DIRECTORY_SEPARATOR . $filename;
 
         $client = new Upyun($this->config);
