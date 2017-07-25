@@ -26,6 +26,13 @@ return [
         /** access url */
         'remote_url' => '',
     ],
+    'upyun' => [
+        'username' => '',
+        'password' => '',
+        'bucket' => '',
+        /** access url */
+        'remote_url' => '',
+    ],
     'aliyun' => [
         /** Internal net url or External net url */
         'oss_server' => '',
