@@ -20,7 +20,7 @@ class QiniuUpload extends UploadDriverInterface
 		$this->remote_url = isset($config['remote_url']) ? $config['remote_url'] : '';
 	}
 
-	public function upload(\SplFileInfo $file)
+	public function upload($prefix = '', \SplFileInfo $file)
 	{
 		$filename = $file->getFilename();
 
@@ -28,7 +28,7 @@ class QiniuUpload extends UploadDriverInterface
 
 		$uploadMgr = new UploadManager();
 
-	    list($ret, $err) = $uploadMgr->putFile($this->token, $filename, $filepath);
+	    list($ret, $err) = $uploadMgr->putFile($this->token, $prefix . '/' . $filename, $filepath);
 
 	    if ($err !== null) {
 	    	
