@@ -26,6 +26,13 @@ return [
         /** access url */
         'remote_url' => '',
     ],
+    'upyun' => [
+        'username' => '',
+        'password' => '',
+        'bucket' => '',
+        /** access url */
+        'remote_url' => '',
+    ],
     'aliyun' => [
         /** Internal net url or External net url */
         'oss_server' => '',
@@ -47,10 +54,11 @@ use Qsnh\think\Upload\Upload;
 
 $upload = new Upload(config('upload'));
 
-$result = $upload->upload();
+// $result = $upload->upload('avatar', '123.jpg');
+$result = $upload->upload('avatar'); // first parameter is folder path; second parameter is custom filename(default: null) 
 
 if (!$result) {
-    $this->error($upload->getErrors());
+    $this->error($upload->getError());
 }
 
 halt($result);

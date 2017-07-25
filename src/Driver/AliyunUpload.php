@@ -30,14 +30,14 @@ class AliyunUpload extends UploadDriverInterface
 		}
 	}
 
-	public function upload(\SplFileInfo $file)
+	public function upload($prefix = '', $name = null, \SplFileInfo $file)
 	{
-		$filename = $file->getFilename();
+		$filename = $name ?: $file->getFilename();
 
 		$filepath = $file->getPath() . DIRECTORY_SEPARATOR . $filename;
 
 		try{
-        	$result = $this->app->uploadFile($this->bucket, $filename, $filepath);
+        	$result = $this->app->uploadFile($this->bucket, $prefix . '/' . $filename, $filepath);
 	    } catch(OssException $e) {
 	        $this->setError($e->getMessage());
 
@@ -46,7 +46,7 @@ class AliyunUpload extends UploadDriverInterface
 
 	    @unlink($filepath);
 
-		return $this->remote_url . $filename;
+		return $this->remote_url . $prefix . '/' . $filename;
 	}
 
 }

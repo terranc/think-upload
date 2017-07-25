@@ -1,6 +1,7 @@
 <?php
 namespace Qsnh\think\Upload;
 
+use Qsnh\think\Upload\Driver\UpyunUpload;
 use think\File;
 use think\Request;
 use Qsnh\think\Upload\Driver\QiniuUpload;
@@ -41,14 +42,14 @@ class Upload
 	 * @param string $filed 上传的字段名
 	 * @return mixed
 	 */
-	public function upload($filed = 'file')
+	public function upload($prefix = '', $name = null, $filed = 'file')
 	{
 		$request = Request::instance();
 
 		$file = $request->file($filed);
 
 		if (is_null($file)) {
-			$this->setErrors('请选择上传文件.');
+			$this->setError('请选择上传文件.');
 
 			return false;
 		}
@@ -68,18 +69,18 @@ class Upload
 
 		/** 验证 */
 		if (!$file->validate($checkData)) {
-			$this->setErrors($file->getError());
+			$this->setError($file->getError());
 
 			return false;
 		}
 
 		/** 先上传到服务器 */
-		if (!$this->byThinkUpload($file)) {
+		if (!$this->byThinkUpload($name ?: true, $file)) {
 			return false;
 		}
 
 		/** Dispatch */
-		return $this->dispatch($this->file);
+		return $this->dispatch($prefix, $name, $this->file);
 	}
 
 	/**
@@ -87,13 +88,13 @@ class Upload
 	 * @param  think\File   $file 上传文件对象
 	 * @return mixed       
 	 */
-	protected function byThinkUpload(File $file)
+	protected function byThinkUpload($name = true, File $file)
 	{
-		$result = $file->move($this->config['path']);
+		$result = $file->move($this->config['path'], $name);
 
 		if (!$result) {
 			
-			$this->setErrors($file->getError());
+			$this->setError($file->getError());
 
 			return false;
 		}
@@ -107,17 +108,20 @@ class Upload
 	 * 上传分发
 	 * @return string
 	 */
-	protected function dispatch(\SplFileInfo $file)
+	protected function dispatch($prefix = '', $name = null, \SplFileInfo $file)
 	{
 		switch ($this->config['driver']) {
-			case 'qiniu':
-				return $this->qiniuDriver($file);
-				break;
+            case 'qiniu':
+                return $this->qiniuDriver($prefix, $name, $file);
+                break;
+            case 'upyun':
+                return $this->upyunDriver($prefix, $name, $file);
+                break;
 			case 'aliyun':
-				return $this->aliyunDriver($file);
+				return $this->aliyunDriver($prefix, $name, $file);
 				break;
 			default:
-				return $this->defaultDriver($file);
+				return $this->defaultDriver($prefix, $name, $file);
 		}
 	}
 
@@ -151,14 +155,14 @@ class Upload
 	 * @param  SplFileInfo $file 
 	 * @return mixed
 	 */
-	protected function qiniuDriver(\SplFileInfo $file)
+	protected function qiniuDriver($prefix = '', $name = null, \SplFileInfo $file)
 	{
 		$qiniu = new QiniuUpload($this->config['qiniu']);
 
-		$result = $qiniu->upload($file);
+		$result = $qiniu->upload($prefix, $name, $file);
 
 		if (!$result) {
-			$this->setErrors($qiniu->getError());
+			$this->setError($qiniu->getError());
 
 			return false;
 		}
@@ -166,19 +170,39 @@ class Upload
 		return $result;
 	}
 
+    /**
+     * 又拍云上传
+     * @param  SplFileInfo $file
+     * @return mixed
+     */
+    protected function upyunDriver($prefix = '', $name = null, \SplFileInfo $file)
+    {
+        $upyun = new UpyunUpload($this->config['upyun']);
+
+        $result = $upyun->upload($prefix, $name, $file);
+
+        if (!$result) {
+            $this->setError($upyun->getError());
+
+            return false;
+        }
+
+        return $result;
+    }
+
 	/**
 	 * 阿里云上传驱动
 	 * @param  SplFileInfo $file 
 	 * @return mixed            
 	 */
-	protected function aliyunDriver(\SplFileInfo $file)
+	protected function aliyunDriver($prefix = '', $name = null, \SplFileInfo $file)
 	{
 		$app = new AliyunUpload($this->config['aliyun']);
 
-		$result = $app->upload($file);
+		$result = $app->upload($prefix, $name, $file);
 
 		if (!$result) {
-			$this->setErrors($app->getError());
+			$this->setError($app->getError());
 
 			return false;
 		}
@@ -190,7 +214,7 @@ class Upload
 	 * 设置错误
 	 * @param void $errors
 	 */
-	protected function setErrors($errors)
+	protected function setError($errors)
 	{
 		$this->errors = $errors;
 	}
