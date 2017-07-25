@@ -58,7 +58,7 @@ $upload = new Upload(config('upload'));
 $result = $upload->upload('avatar'); // first parameter is folder path; second parameter is custom filename(default: null) 
 
 if (!$result) {
-    $this->error($upload->getErrors());
+    $this->error($upload->getError());
 }
 
 halt($result);
