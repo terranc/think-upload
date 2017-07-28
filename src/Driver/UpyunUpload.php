@@ -31,8 +31,7 @@ class UpyunUpload extends UploadDriverInterface
 		$filename = $name ?: $file->getFilename();
 		$filepath = $file->getPath() . DIRECTORY_SEPARATOR . $filename;
 
-        $client = new Upyun($this->config);
-	    $ret = $client->write($prefix . '/' . $filename, fopen($filepath, 'rb'), true);
+	    $ret = $this->client->write($prefix . '/' . $filename, fopen($filepath, 'rb'), true);
 	    if (!$ret) {
 	    	dd($ret);
 	    	$this->setError($ret);
