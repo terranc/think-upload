@@ -32,7 +32,7 @@ class QiniuUpload extends UploadDriverInterface
 
 	    if ($err !== null) {
 	    	
-	    	$this->setError($err);
+	    	$this->setError($err->message());
 
 	    	return false;
 	    }
