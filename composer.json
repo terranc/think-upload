@@ -1,14 +1,15 @@
 {
-	"name": "qsnh/think-upload",
+	"name": "qeq66/think-upload",
 	"description": "Thinkphp5 FileUpload Library.",
 	"keywords": ["Thinkphp5", "File", "Upload"],
 	"license": "MIT",
 	"authors": [
         {
-            "name": "qsnh",
-            "email": "616896861@qq.com"
+            "name": "King超",
+            "email": "23939139@qq.com"
         }
     ],
+    "minimum-stability":"dev",
     "require": {
         "php": ">=5.4.0",
         "qiniu/php-sdk": "*",
@@ -19,5 +20,10 @@
         "psr-4": {
             "Qsnh\\think\\Upload\\": "src"
         }
-    }
+    },
+    "extra":{
+        "branch-alias":{
+            "dev-master":"1.0.x-dev" 
+        }
+    }    
 }
